@@ -2,12 +2,6 @@
 
 Journal App Project created within the "neuefische"-Web-Development Bootcamp
 
-## Development
-
-### CodeSandbox
-
-Select the "Browser" tab to view this project.
-
 ### Local development
 
 To run project commands locally, you need to install the dependencies using `npm i` first.
