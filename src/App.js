@@ -68,6 +68,8 @@ function App() {
   // ???
   //const entriesToRender = favoriteEntries.length > 0 ? favoriteEntries : entries;
 
+  //pass down : onShowAllEntries, onShowFavoriteEntries
+
   console.log(entries)
 
   return (
