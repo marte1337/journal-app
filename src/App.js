@@ -1,9 +1,9 @@
+import { useState } from "react";
 import "./App.css";
 import EntriesSection from "./components/EntriesSection";
 import EntryForm from "./components/EntryForm";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import { useState } from "react";
 import { uid } from "uid";
 
 const initialEntries = [
@@ -13,6 +13,7 @@ const initialEntries = [
     motto: "We are in a state of chaos",
     notes:
       "Today I learned about React State. It was fun! I can't wait to learn more.",
+    isFavorite: false,
   },
   {
     id: 999,
@@ -20,6 +21,7 @@ const initialEntries = [
     motto: "Props, Props, Props",
     notes:
       "Today I learned about React Props. Mad props to everyone who understands this!",
+    isFavorite: false,
   },
   {
     id: 998,
@@ -27,33 +29,56 @@ const initialEntries = [
     motto: "How to nest components online fast",
     notes:
       "Today I learned about React Components and how to nest them like a pro. Application design is so much fun!",
+    isFavorite: false,
   },
   {
     id: 997,
     date: "Feb 2, 2025",
     motto: "I'm a React Developer",
-    notes: "My React-ion when I learned about React: 😍",
+    notes: "My React-ion when I learned about React: Yay!",
+    isFavorite: false,
   },
 ];
 
-
-
 function App() {
+  const [entries, setEntries] = useState(initialEntries);
 
-const [entries, setEntries] = useState(initialEntries)
+  // Derived state
+  // const favoriteEntries = entries.filter((entry) => entry.isFavorite);
 
-function handleAddEntry(newEntry) {
-  const newDate = new Date().toLocaleDateString("en-us", { dateStyle: "medium" });
-  setEntries([{id: uid(), ...newEntry, date: newDate }, ...entries])
-}
-console.log(entries)
+  function handleAddEntry(newEntry) {
+    const date = new Date().toLocaleDateString("en-us", {
+      dateStyle: "medium",
+    });
+    setEntries([
+      { id: uid(), date, isFavorite: false, ...newEntry },
+      ...entries,
+    ]);
+  }
+
+  function handleToggleFavorite(id) {
+    const copyOfEntries = entries.map((entry) => {
+      return entry.id === id
+        ? { ...entry, isFavorite: !entry.isFavorite }
+        : entry;
+    });
+    setEntries(copyOfEntries);
+  }
+
+  // ???
+  //const entriesToRender = favoriteEntries.length > 0 ? favoriteEntries : entries;
+
+  console.log(entries)
 
   return (
     <div className="app">
       <Header />
       <main className="app__main">
-        <EntryForm onAddEntry={handleAddEntry}/>
-        <EntriesSection entries={entries}/>
+        <EntryForm onAddEntry={handleAddEntry} />
+        <EntriesSection
+          entries={entries}
+          onToggleFavorite={handleToggleFavorite}
+        />
       </main>
       <Footer />
     </div>
