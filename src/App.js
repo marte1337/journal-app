@@ -1,5 +1,5 @@
-import { useState } from "react";
 import "./App.css";
+import useLocalStorageState from "use-local-storage-state";
 import EntriesSection from "./components/EntriesSection";
 import EntryForm from "./components/EntryForm";
 import Footer from "./components/Footer";
@@ -41,7 +41,7 @@ const initialEntries = [
 ];
 
 function App() {
-  const [entries, setEntries] = useState(initialEntries);
+  const [entries, setEntries] = useLocalStorageState("_ENTRIES_", {defaultValue: initialEntries});
 
   // Derived state
   // const favoriteEntries = entries.filter((entry) => entry.isFavorite);
