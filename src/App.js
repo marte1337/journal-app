@@ -53,27 +53,28 @@ function App() {
     const date = new Date().toLocaleDateString("en-us", {
       dateStyle: "medium",
     });
-    setEntries([
-      { id: uid(), date, isFavorite: false, ...newEntry },
-      ...entries,
-    ]);
+    setEntries([{ id: uid(), date, ...newEntry }, ...entries]);
   }
 
   function handleToggleFavorite(id) {
-    const copyOfEntries = entries.map((entry) => {
-      return entry.id === id
-        ? { ...entry, isFavorite: !entry.isFavorite }
-        : entry;
-    });
-    setEntries(copyOfEntries);
+    setEntries(
+      entries.map((entry) =>
+        entry.id === id ? { ...entry, isFavorite: !entry.isFavorite } : entry
+      )
+    );
   }
 
-  // ???
-  //const entriesToRender = favoriteEntries.length > 0 ? favoriteEntries : entries;
+  function handleShowFavoriteEntries() {
+    setFilter("favorites");
+  }
 
-  //pass down : onShowAllEntries, onShowFavoriteEntries
+  function handleShowAllEntries() {
+    setFilter("all");
+  }
 
-  console.log(entries)
+  const favoriteEntries = entries.filter((entry) => entry.isFavorite);
+  
+    //const entriesToRender = favoriteEntries.length > 0 ? favoriteEntries : entries;
 
   return (
     <div className="app">
@@ -81,8 +82,13 @@ function App() {
       <main className="app__main">
         <EntryForm onAddEntry={handleAddEntry} />
         <EntriesSection
-          entries={entries}
+          entries={filter === "favorites" ? favoriteEntries : entries}
+          filter={filter}
+          allEntriesCount={entries.length}
+          favoriteEntriesCount={favoriteEntries.length}
           onToggleFavorite={handleToggleFavorite}
+          onShowAllEntries={handleShowAllEntries}
+          onShowFavoriteEntries={handleShowFavoriteEntries}
         />
       </main>
       <Footer />
